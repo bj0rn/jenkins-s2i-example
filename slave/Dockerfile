@@ -4,6 +4,9 @@ FROM centos:latest
 # Install headless Java
 USER root
 
+ENV JENKINS_SWARM_VERSION 3.3
+ENV HOME /home/jenkins-slave
+
 RUN yum install -y epel-release
 
 RUN yum clean all && \
@@ -20,10 +23,13 @@ RUN yum clean all && \
         chown -R 1001:0 /var/lib/jenkins && \
         chmod -R g+w /var/lib/jenkins
 
+RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-$JENKINS_SWARM_VERSION.jar https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION.jar \
+  && chmod 755 /usr/share/jenkins
+
 # Copy the entrypoint
 COPY configuration/* /var/lib/jenkins/
 USER 1001
 
 # Run the JNLP client by default
 # To use swarm client, specify "/var/lib/jenkins/run-swarm-client" as Command
-ENTRYPOINT ["/var/lib/jenkins/run-jnlp-client"]
+ENTRYPOINT ["/var/lib/jenkins/jenkins-slave.sh"]

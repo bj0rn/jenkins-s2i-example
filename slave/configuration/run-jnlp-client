@@ -55,7 +55,7 @@ if [[ $# -gt 1 ]]; then
 
   echo Running java $JAVA_OPTS -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
   cd ${JENKINS_DIR} && exec java $JAVA_OPTS \
-    -cp $JAR hudson.remoting.jnlp.Main -headless -credentials admin:password $PARAMS "$@"
+    -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
 fi
 
 exec "$@"
