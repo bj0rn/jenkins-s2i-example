@@ -29,7 +29,7 @@ RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-$JENKINS_SWARM_VERS
 # Copy the entrypoint
 COPY configuration/* /var/lib/jenkins/
 USER 1001
-
+VOLUME /home/jenkins-slave
 # Run the JNLP client by default
 # To use swarm client, specify "/var/lib/jenkins/run-swarm-client" as Command
 ENTRYPOINT ["/var/lib/jenkins/jenkins-slave.sh"]
