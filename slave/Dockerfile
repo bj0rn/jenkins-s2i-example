@@ -5,7 +5,7 @@ FROM centos:latest
 USER root
 
 ENV JENKINS_SWARM_VERSION 3.3
-ENV HOME /home/jenkins-slave
+ENV HOME /var/lib/jenkins
 
 RUN yum install -y epel-release
 
@@ -26,8 +26,6 @@ RUN yum clean all && \
 RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-$JENKINS_SWARM_VERSION.jar https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION.jar \
   && chmod 755 /usr/share/jenkins
 
-VOLUME /home/jenkins-slave
-RUN chmod 777 /home/jenkins-slave
 
 # Copy the entrypoint
 COPY configuration/* /var/lib/jenkins/
