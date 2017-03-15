@@ -26,10 +26,13 @@ RUN yum clean all && \
 RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-$JENKINS_SWARM_VERSION.jar https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION.jar \
   && chmod 755 /usr/share/jenkins
 
+VOLUME /home/jenkins-slave
+RUN chmod 777 /home/jenkins-slave
+
 # Copy the entrypoint
 COPY configuration/* /var/lib/jenkins/
 USER 1001
-VOLUME /home/jenkins-slave
+
 # Run the JNLP client by default
 # To use swarm client, specify "/var/lib/jenkins/run-swarm-client" as Command
 ENTRYPOINT ["/var/lib/jenkins/jenkins-slave.sh"]
